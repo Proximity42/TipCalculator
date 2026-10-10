@@ -17,9 +17,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -46,10 +48,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
+fun TipSlider(sliderPosition: Float, onPositionChange: (Float) -> Unit) {
+    Slider(
+        valueRange = 0f..25f,
+        value = sliderPosition,
+        onValueChange = {onPositionChange(it)}
     )
 }
 
@@ -58,11 +61,15 @@ fun TipCalculator(modifier: Modifier = Modifier) {
     var input by remember {mutableStateOf("")}
     var result by remember {mutableStateOf("")}
 
+    var sliderPosition by remember { mutableFloatStateOf(5f) }
+    val handlePositionChange = {position: Float ->
+        sliderPosition = position
+    }
+
     Column(
         modifier = Modifier
             .padding(24.dp)
             .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -80,6 +87,7 @@ fun TipCalculator(modifier: Modifier = Modifier) {
                 singleLine = true,
             )
         }
+        Spacer(modifier = Modifier.height(16.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -95,6 +103,22 @@ fun TipCalculator(modifier: Modifier = Modifier) {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
             )
+        }
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            text="Чаевые:",
+            fontSize = 20.sp
+        )
+        TipSlider(
+            sliderPosition = sliderPosition,
+            onPositionChange = handlePositionChange
+        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "0", fontSize = 20.sp)
+            Text(text = "25", fontSize = 20.sp)
         }
     }
 }
