@@ -61,9 +61,8 @@ fun TipCalculator(modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier
             .padding(24.dp)
-            .width(700.dp),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -71,7 +70,7 @@ fun TipCalculator(modifier: Modifier = Modifier) {
         ) {
             Text(
                 text="Сумма заказа:",
-                fontSize = 24.sp
+                fontSize = 20.sp
             )
 
             OutlinedTextField(
@@ -79,7 +78,22 @@ fun TipCalculator(modifier: Modifier = Modifier) {
                 onValueChange = {input = it},
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
-                modifier = Modifier.width(250.dp)
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text="Количество блюд:",
+                fontSize = 20.sp
+            )
+
+            OutlinedTextField(
+                value = input,
+                onValueChange = {input = it},
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true,
             )
         }
     }
